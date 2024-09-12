@@ -41,6 +41,21 @@ body {
   align-items: center;
 }
 
+#main-screen {
+  background-color: rgba(25, 99, 109, 0.979) !important;
+}
+
+#main-screen h1 {
+  color: #fff;
+  text-align: center;
+}
+
+#main-screen h2 {
+  color: #fff;
+  font-size: 1em;
+  text-align: center;
+}
+
 #main-screen, #create-race-screen, #race-list-container, #game-container {
   display: flex;
   flex-direction: column;
