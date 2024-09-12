@@ -230,7 +230,7 @@ button:hover {
 /* Emoji on Progress Bar */
 .emoji {
   top: 0;
-  margin-left: 10px;
+  margin-left: -46px;
   font-size: 30px;
   transition: left 0.5s ease;
   width: 50px;
