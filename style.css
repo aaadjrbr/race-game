@@ -41,6 +41,30 @@ body {
   align-items: center;
 }
 
+div#ready-message {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+#score-list {
+  list-style-type: none; /* Removes the default bullet points */
+  padding: 0; /* Removes padding from the list */
+  text-align: center; /* Aligns text to the center */
+  margin: 20px auto; /* Adds some margin for spacing */
+  width: 100%; /* Ensure the list takes the full width */
+}
+
+#score-list li {
+  padding: 10px; /* Adds space between items */
+  font-size: 18px; /* Adjusts the font size */
+  border-bottom: 1px solid #ddd; /* Adds a subtle line between items */
+}
+
+#score-list li:last-child {
+  border-bottom: none; /* Removes the border from the last item */
+}
+
 #main-screen {
   background-color: rgba(214, 109, 38, 0.945) !important;
 }
@@ -109,10 +133,11 @@ button:hover {
 
 #player-status {
   margin-bottom: 20px;
-  padding: 10px;
+  padding: 15px;
   background-color: #f5f5f5;
   border: 1px solid #ddd;
-  border-radius: 10px;
+  border-radius: 25px;
+  text-align: center;
 }
 
 .player-status-item {
@@ -157,7 +182,7 @@ button:hover {
   margin: 15px 0;
   padding: 5px;
   overflow: hidden;
-  width: 100%;
+  width: 300px;
   max-width: 400px; /* Adjust as needed */
 }
 
@@ -205,16 +230,13 @@ button:hover {
 /* Emoji on Progress Bar */
 .emoji {
   top: 0;
-  margin-left: 15px;
+  margin-left: 10px;
   font-size: 30px;
   transition: left 0.5s ease;
-  border-radius: 50%;
-  background-color: #fff;
   width: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 /* Go back button */
@@ -234,7 +256,7 @@ button:hover {
 /* Media Queries for Responsive Design */
 @media (max-width: 768px) {
   body {
-    padding: 10px;
+    padding: 25px;
     height: auto;
     align-items: flex-start;
   }
@@ -272,24 +294,27 @@ button:hover {
   }
 }
 
+/* End game buttons container */
 .end-game-options {
   display: flex;
   justify-content: center;
-  gap: 20px; /* Space between buttons */
-  margin-top: 30px; /* Space above the buttons */
+  gap: 20px; /* Add some space between the buttons */
+  margin-top: 20px;
 }
 
-.end-game-options button {
-  padding: 10px 20px;
+/* Styling the Restart and Go Back buttons */
+.end-button {
+  padding: 12px 24px;
   background-color: #007BFF;
   color: white;
   border: none;
-  border-radius: 5px;
-  cursor: pointer;
+  border-radius: 25px;
   font-size: 16px;
-  transition: background-color 0.3s;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
 }
 
-.end-game-options button:hover {
+.end-button:hover {
   background-color: #0056b3;
+  transform: scale(1.05);
 }

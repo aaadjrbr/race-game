@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
-import { getFirestore, doc, setDoc, getDoc, onSnapshot, updateDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+import { getFirestore, doc, setDoc, getDoc, onSnapshot, updateDoc, collection, getDocs, deleteDoc } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 import { questions } from './questions.js';  // Import the quiz questions
 
 // Firebase Configuration
@@ -197,7 +197,7 @@ document.getElementById('join-btn').addEventListener('click', async () => {
 // Ready Button Click Handler
 document.getElementById('ready-btn').addEventListener('click', async () => {
   const raceRef = doc(db, "races", selectedRaceName);
-  const isReady = document.getElementById('ready-btn').innerText === 'Ready';
+  const isReady = document.getElementById('ready-btn').innerText === 'Ready ✅';
 
   if (raceStarted && !isReady) {
     // Prevent player from unreadying after race has started
@@ -209,8 +209,8 @@ document.getElementById('ready-btn').addEventListener('click', async () => {
     [`player${playerIndex}Ready`]: isReady,
   });
 
-  document.getElementById('ready-btn').innerText = isReady ? 'Unready' : 'Ready'; // Toggle Ready/Unready
-  document.getElementById('ready-message').innerHTML = isReady ? `${nickname} is ready... waiting for other players!` : '';
+  document.getElementById('ready-btn').innerText = isReady ? 'Unready ❌' : 'Ready ✅'; // Toggle Ready/Unready
+  document.getElementById('ready-message').innerHTML = isReady ? `Good luck ${nickname} 🙌` : '';
 
   // Immediately reflect ready status for all players
   listenForUpdates(selectedRaceName);
@@ -234,8 +234,16 @@ function startCountdown() {
 // Listen for Race Updates
 function listenForUpdates(raceName) {
   const raceRef = doc(db, "races", raceName);
-  onSnapshot(raceRef, (doc) => {
-    const data = doc.data();
+  onSnapshot(raceRef, (docSnapshot) => {
+    if (!docSnapshot.exists()) {
+      // If the race no longer exists, redirect the player to the main page
+      alert("The race has been deleted. Redirecting to the main page.");
+      document.getElementById('game-container').style.display = 'none';
+      document.getElementById('main-screen').style.display = 'block';
+      return;
+    }
+
+    const data = docSnapshot.data();
     updateProgressBars(data);
     updateScoreboard(data);
     checkIfAllPlayersReady(data);
@@ -251,7 +259,7 @@ function updatePlayerStatus(raceData) {
 
   for (let i = 1; i <= raceData.playersJoined; i++) {
     const playerName = raceData[`player${i}Nickname`] || `Player ${i}`;
-    const playerReady = raceData[`player${i}Ready`] ? "READY" : "NOT READY";
+    const playerReady = raceData[`player${i}Ready`] ? "Ready ✨🚀" : "Not Ready ⏰👀";
 
     const statusItem = document.createElement('div');
     statusItem.className = 'player-status-item';
@@ -276,6 +284,12 @@ function checkIfAllPlayersReady(raceData) {
 
 // Update Progress Bars
 function updateProgressBars(raceData) {
+  // Check if raceData and playersJoined are defined
+  if (!raceData || typeof raceData.playersJoined === 'undefined') {
+    console.error("Race data or playersJoined is undefined.");
+    return; // Exit the function if there's no valid data
+  }
+
   const playerContainer = document.getElementById('player-container');
   playerContainer.innerHTML = '';  // Clear previous progress bars
 
@@ -313,9 +327,25 @@ document.getElementById('tap-btn').addEventListener('click', () => {
   }
 });
 
+
 // Show Quiz
+let usedQuestions = [];  // Array to store used questions
+
 function showQuiz() {
-  const randomQuestion = questions[Math.floor(Math.random() * questions.length)];
+  // If all questions have been used, reset the usedQuestions array
+  if (usedQuestions.length === questions.length) {
+    usedQuestions = [];  // Reset to allow the next round
+  }
+
+  // Filter the available questions that have not been used
+  const availableQuestions = questions.filter(q => !usedQuestions.includes(q));
+
+  // Select a random question from the available ones
+  const randomQuestion = availableQuestions[Math.floor(Math.random() * availableQuestions.length)];
+
+  // Add the selected question to the usedQuestions array
+  usedQuestions.push(randomQuestion);
+
   document.getElementById('quiz-question').innerText = randomQuestion.question;
 
   const optionsContainer = document.getElementById('quiz-options');
@@ -383,32 +413,49 @@ function checkForWinner(raceData) {
     const winnerName = raceData[`player${winnerIndex}Nickname`];
     const winnerEmoji = raceData[`player${winnerIndex}Emoji`];
 
-    alert(`${winnerEmoji} ${winnerName} has won the race!`);
+    alert(`📢 ${winnerEmoji} ${winnerName} has won the race! 🏁🏆`);
     document.getElementById('tap-btn').style.display = 'none';  // Hide the tap button once there's a winner
 
-    // Check if the buttons container already exists
-    if (!document.querySelector('.end-game-options')) {
-      // Display Restart or Go Back button
-      const endGameContainer = document.createElement('div');
-      endGameContainer.className = 'end-game-options';
-
-      const restartBtn = document.createElement('button');
-      restartBtn.innerText = 'Restart Race';
-      restartBtn.addEventListener('click', () => {
-        location.reload();  // Reload the page to restart the race
-      });
-
-      const goBackBtn = document.createElement('button');
-      goBackBtn.innerText = 'Go Back to Home';
-      goBackBtn.addEventListener('click', () => {
-        document.getElementById('game-container').style.display = 'none';
-        document.getElementById('main-screen').style.display = 'block';
-      });
-
-      endGameContainer.appendChild(restartBtn);
-      endGameContainer.appendChild(goBackBtn);
-
-      document.body.appendChild(endGameContainer);
+    // Clear any existing end-game buttons to prevent duplication
+    const existingEndGameContainer = document.getElementById('end-game-container');
+    if (existingEndGameContainer) {
+      existingEndGameContainer.remove();
     }
+
+    // Create a new container for the end buttons
+    const endGameContainer = document.createElement('div');
+    endGameContainer.id = 'end-game-container';
+    endGameContainer.className = 'end-game-options';
+
+    // Restart Button
+    const restartBtn = document.createElement('button');
+    restartBtn.innerText = 'Restart Race';
+    restartBtn.addEventListener('click', async () => {
+      // Delete the room and reload the page
+      await deleteRoom();
+      location.reload();  // Reload the page to restart the race
+    });
+
+    // Go Back Button
+    const goBackBtn = document.createElement('button');
+    goBackBtn.innerText = 'Go Back to Home';
+    goBackBtn.addEventListener('click', async () => {
+      // Delete the room and redirect to the main screen
+      await deleteRoom();
+      document.getElementById('game-container').style.display = 'none';
+      document.getElementById('main-screen').style.display = 'block';
+    });
+
+    endGameContainer.appendChild(restartBtn);
+    endGameContainer.appendChild(goBackBtn);
+
+    // Append the end buttons inside the game-container
+    document.getElementById('game-container').appendChild(endGameContainer);
   }
+}
+
+// Delete the room from Firestore
+async function deleteRoom() {
+  const raceRef = doc(db, "races", selectedRaceName);
+  await deleteDoc(raceRef);
 }
