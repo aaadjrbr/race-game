@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multiplayer Quiz Race</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="main-screen">
+        <h1>Multiplayer Quiz Race</h1>
+        <button id="create-race-btn">Create Race</button>
+        <button id="find-race-btn">Join Race</button>
+    </div>
+
+    <div id="create-race-screen" style="display:none;">
+        <input type="text" id="nickname" placeholder="Enter your nickname">
+        <input type="text" id="race-name" placeholder="Enter race name">
+        <input type="number" id="players-allowed" placeholder="Max players (up to 5)">
+        <input type="password" id="passcode" placeholder="Enter passcode">
+        
+        <!-- Emoji Selection for Creating Race -->
+        <h3>Select an Emoji</h3>
+        <div id="emoji-selection">
+            <button class="emoji-btn" data-emoji="🚗">🚗</button>
+            <button class="emoji-btn" data-emoji="🚀">🚀</button>
+            <button class="emoji-btn" data-emoji="🚁">🚁</button>
+            <button class="emoji-btn" data-emoji="🚤">🚤</button>
+            <button class="emoji-btn" data-emoji="🛸">🛸</button>
+        </div>
+        <h3>Or Enter a Custom Emoji</h3>
+        <button id="custom-emoji-btn">Choose Custom Emoji</button>
+        
+        <button id="create-btn">Create</button>
+        <button id="go-back-btn">Go Back</button>
+    </div>
+
+    <!-- Race List for Players Joining a Race -->
+    <div id="race-list-container" style="display:none;">
+        <h2>Available Races</h2>
+        <div id="race-list"></div>
+        <button id="go-back-btn">Go Back</button>
+    </div>
+
+    <!-- Joining Race Screen -->
+    <div id="join-race-screen" style="display:none;">
+        <input type="text" id="join-nickname" placeholder="Enter your nickname">
+        <input type="password" id="join-passcode" placeholder="Enter race passcode">
+        
+        <h3>Select an Emoji</h3>
+        <div id="emoji-selection-join">
+            <button class="emoji-btn" data-emoji="🚗">🚗</button>
+            <button class="emoji-btn" data-emoji="🚀">🚀</button>
+            <button class="emoji-btn" data-emoji="🚁">🚁</button>
+            <button class="emoji-btn" data-emoji="🚤">🚤</button>
+            <button class="emoji-btn" data-emoji="🛸">🛸</button>
+        </div>
+        <h3>Or Enter a Custom Emoji</h3>
+        <button id="custom-emoji-btn-join">Choose Custom Emoji</button>
+
+        <button id="join-btn">Join Race</button>
+        <button id="go-back-btn-join">Go Back</button>
+    </div>
+
+    <!-- Game Screen for Active Race -->
+    <div id="game-container" style="display:none;">
+        <div id="player-container"></div>
+        <button id="ready-btn">Ready</button> <!-- Ready button -->
+        <div id="ready-message"></div> <!-- Ready status message -->
+        <div id="countdown" style="display:none;">Race starts in <span id="countdown-timer">5</span> seconds!</div>
+        <button id="tap-btn" style="display:none;">Tap</button> <!-- Hidden until race starts -->
+        
+        <div id="quiz-container" style="display:none;">
+            <h2 id="quiz-question"></h2>
+            <div id="quiz-options"></div>
+        </div>
+
+        <ul id="score-list"></ul>
+    </div>  
+
+    <script type="module" src="app.js"></script>
+</body>
+</html>

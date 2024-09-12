@@ -1,0 +1,229 @@
+/* Emoji Selection */
+#emoji-selection, #emoji-selection-join {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px; /* Space between buttons */
+  margin-top: 20px;
+}
+
+.emoji-btn {
+  background-color: white;
+  border: 2px solid #ddd;
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  font-size: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.3s;
+}
+
+.emoji-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.emoji-btn:disabled {
+  background-color: #f0f0f0;
+  cursor: not-allowed;
+}
+
+/* General styles */
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #74ebd5 0%, #acb6e5 100%);
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#main-screen, #create-race-screen, #race-list-container, #game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  max-width: 500px;
+  margin: 10px;
+}
+
+#game-container {
+  margin-top: 100px;
+}
+
+input {
+  margin: 10px 0;
+  padding: 15px;
+  width: 100%;
+  border: 2px solid #ddd;
+  border-radius: 30px;
+  outline: none;
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+
+input:focus {
+  border-color: #007BFF;
+}
+
+button {
+  padding: 12px 20px;
+  margin: 10px 0;
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  width: 100%;
+  max-width: 250px;
+}
+
+button:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+/* Race List */
+#race-list-container {
+  width: 100%;
+  max-width: 500px;
+}
+
+#race-list {
+  width: 100%;
+  margin-top: 15px;
+}
+
+.race-item {
+  background-color: white;
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.3s;
+}
+
+.race-item:hover {
+  transform: scale(1.05);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Progress Bars for Players */
+.progress-bar {
+  width: 100%;
+  height: 30px;
+  background-color: #e0e0e0;
+  border-radius: 15px;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0;
+  border-radius: 15px;
+  transition: width 0.5s ease;
+}
+
+.progress-fill.player1 {
+  background: linear-gradient(90deg, #ff9a9e 0%, #fad0c4 100%);
+}
+
+.progress-fill.player2 {
+  background: linear-gradient(90deg, #a1c4fd 0%, #c2e9fb 100%);
+}
+
+.progress-fill.player3 {
+  background: linear-gradient(90deg, #84fab0 0%, #8fd3f4 100%);
+}
+
+.progress-fill.player4 {
+  background: linear-gradient(90deg, #fbc2eb 0%, #a6c1ee 100%);
+}
+
+.progress-fill.player5 {
+  background: linear-gradient(90deg, #fccb90 0%, #d57eeb 100%);
+}
+
+/* Emoji on Progress Bar */
+.emoji {
+  position: absolute;
+  top: 15px; /* Adjust the position of the emoji */
+  margin-left: 15px;
+  font-size: 30px;
+  transition: left 0.5s ease;
+  border-radius: 50%;
+  background-color: #fff;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Go back button */
+#go-back-btn {
+  background-color: #ff6347;
+  color: white;
+  border-radius: 25px;
+  padding: 12px 30px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#go-back-btn:hover {
+  background-color: #ff4500;
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 768px) {
+  body {
+    padding: 10px;
+    height: auto;
+    align-items: flex-start;
+  }
+
+  #main-screen, #create-race-screen, #race-list-container, #game-container {
+    width: 95%;
+    max-width: 95%;
+  }
+
+  button {
+    width: 100%;
+  }
+
+  input {
+    width: 100%;
+  }
+
+  #track-container {
+    width: 100%;
+  }
+}
+
+@media (min-width: 768px) {
+  #main-screen, #create-race-screen, #race-list-container, #game-container {
+    width: 600px;
+    padding: 30px;
+  }
+
+  input {
+    width: 80%;
+  }
+
+  button {
+    width: 50%;
+  }
+}
