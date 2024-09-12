@@ -144,10 +144,11 @@ document.getElementById('go-back-btn-list').addEventListener('click', () => {
 });
 
 // Join a Race
+// Join a Race
 document.getElementById('join-btn').addEventListener('click', async () => {
   nickname = document.getElementById('join-nickname').value;
   passcode = document.getElementById('join-passcode').value;
-  
+
   if (!nickname || !passcode) {
     alert("Both nickname and passcode are required!");
     return;
@@ -158,9 +159,17 @@ document.getElementById('join-btn').addEventListener('click', async () => {
 
   if (raceSnapshot.exists() && raceSnapshot.data().passcode === passcode) {
     const playersJoined = raceSnapshot.data().playersJoined;
-    const availableSlots = [];
+    const playersAllowed = raceSnapshot.data().playersAllowed;
 
-    for (let i = 1; i <= raceSnapshot.data().playersAllowed; i++) {
+    // Check if the room is full
+    if (playersJoined >= playersAllowed) {
+      alert("The room is full!");
+      return;
+    }
+
+    // Find available slot
+    const availableSlots = [];
+    for (let i = 1; i <= playersAllowed; i++) {
       if (!raceSnapshot.data()[`player${i}Nickname`]) {
         availableSlots.push(i);
       }
@@ -174,6 +183,7 @@ document.getElementById('join-btn').addEventListener('click', async () => {
     updateData[`player${playerIndex}Emoji`] = selectedEmoji;
     updateData[`playersJoined`] = playersJoined + 1;
 
+    // Update the race with the new player details
     await updateDoc(raceRef, updateData);
 
     document.getElementById('join-race-screen').style.display = 'none';
@@ -188,7 +198,13 @@ document.getElementById('join-btn').addEventListener('click', async () => {
 document.getElementById('ready-btn').addEventListener('click', async () => {
   const raceRef = doc(db, "races", selectedRaceName);
   const isReady = document.getElementById('ready-btn').innerText === 'Ready';
-  
+
+  if (raceStarted && !isReady) {
+    // Prevent player from unreadying after race has started
+    alert("The race has already started! You cannot mark yourself as unready.");
+    return;
+  }
+
   await updateDoc(raceRef, {
     [`player${playerIndex}Ready`]: isReady,
   });
@@ -223,8 +239,26 @@ function listenForUpdates(raceName) {
     updateProgressBars(data);
     updateScoreboard(data);
     checkIfAllPlayersReady(data);
+    updatePlayerStatus(data); // Update the player readiness status
     checkForWinner(data);  // Check if a player has won the race
   });
+}
+
+// Function to update player readiness status
+function updatePlayerStatus(raceData) {
+  const playerStatusContainer = document.getElementById('player-status');
+  playerStatusContainer.innerHTML = ''; // Clear the previous status
+
+  for (let i = 1; i <= raceData.playersJoined; i++) {
+    const playerName = raceData[`player${i}Nickname`] || `Player ${i}`;
+    const playerReady = raceData[`player${i}Ready`] ? "READY" : "NOT READY";
+
+    const statusItem = document.createElement('div');
+    statusItem.className = 'player-status-item';
+    statusItem.innerHTML = `${playerName}: ${playerReady}`;
+
+    playerStatusContainer.appendChild(statusItem);
+  }
 }
 
 // Check if All Players are Ready
