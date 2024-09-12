@@ -386,26 +386,29 @@ function checkForWinner(raceData) {
     alert(`${winnerEmoji} ${winnerName} has won the race!`);
     document.getElementById('tap-btn').style.display = 'none';  // Hide the tap button once there's a winner
 
-    // Display Restart or Go Back button
-    const endGameContainer = document.createElement('div');
-    endGameContainer.className = 'end-game-options';
+    // Check if the buttons container already exists
+    if (!document.querySelector('.end-game-options')) {
+      // Display Restart or Go Back button
+      const endGameContainer = document.createElement('div');
+      endGameContainer.className = 'end-game-options';
 
-    const restartBtn = document.createElement('button');
-    restartBtn.innerText = 'Restart Race';
-    restartBtn.addEventListener('click', () => {
-      location.reload();  // Reload the page to restart the race
-    });
+      const restartBtn = document.createElement('button');
+      restartBtn.innerText = 'Restart Race';
+      restartBtn.addEventListener('click', () => {
+        location.reload();  // Reload the page to restart the race
+      });
 
-    const goBackBtn = document.createElement('button');
-    goBackBtn.innerText = 'Go Back to Home';
-    goBackBtn.addEventListener('click', () => {
-      document.getElementById('game-container').style.display = 'none';
-      document.getElementById('main-screen').style.display = 'block';
-    });
+      const goBackBtn = document.createElement('button');
+      goBackBtn.innerText = 'Go Back to Home';
+      goBackBtn.addEventListener('click', () => {
+        document.getElementById('game-container').style.display = 'none';
+        document.getElementById('main-screen').style.display = 'block';
+      });
 
-    endGameContainer.appendChild(restartBtn);
-    endGameContainer.appendChild(goBackBtn);
+      endGameContainer.appendChild(restartBtn);
+      endGameContainer.appendChild(goBackBtn);
 
-    document.body.appendChild(endGameContainer);
+      document.body.appendChild(endGameContainer);
+    }
   }
 }

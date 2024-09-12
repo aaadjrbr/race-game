@@ -42,7 +42,7 @@ body {
 }
 
 #main-screen {
-  background-color: rgba(25, 99, 109, 0.979) !important;
+  background-color: rgba(214, 109, 38, 0.945) !important;
 }
 
 #main-screen h1 {
@@ -270,4 +270,26 @@ button:hover {
   button {
     width: 50%;
   }
+}
+
+.end-game-options {
+  display: flex;
+  justify-content: center;
+  gap: 20px; /* Space between buttons */
+  margin-top: 30px; /* Space above the buttons */
+}
+
+.end-game-options button {
+  padding: 10px 20px;
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.end-game-options button:hover {
+  background-color: #0056b3;
 }
