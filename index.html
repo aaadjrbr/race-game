@@ -13,12 +13,20 @@
         <button id="find-race-btn">Join Race</button>
     </div>
 
+    <!-- Create Race Screen -->
     <div id="create-race-screen" style="display:none;">
+        <label for="nickname">Nickname</label>
         <input type="text" id="nickname" placeholder="Enter your nickname">
+        <br/>
+        <label for="race-name">Race Name</label>
         <input type="text" id="race-name" placeholder="Enter race name">
+        <br/>
+        <label for="players-allowed">Max Players (up to 5)</label>
         <input type="number" id="players-allowed" placeholder="Max players (up to 5)">
+
+        <label for="passcode">Passcode</label>
         <input type="password" id="passcode" placeholder="Enter passcode">
-        
+
         <!-- Emoji Selection for Creating Race -->
         <h3>Select an Emoji</h3>
         <div id="emoji-selection">
@@ -30,23 +38,27 @@
         </div>
         <h3>Or Enter a Custom Emoji</h3>
         <button id="custom-emoji-btn">Choose Custom Emoji</button>
-        
+
         <button id="create-btn">Create</button>
-        <button id="go-back-btn">Go Back</button>
+        <button id="go-back-btn-create">Go Back</button>
     </div>
 
     <!-- Race List for Players Joining a Race -->
     <div id="race-list-container" style="display:none;">
         <h2>Available Races</h2>
         <div id="race-list"></div>
-        <button id="go-back-btn">Go Back</button>
+        <button id="go-back-btn-list">Go Back</button>
     </div>
 
     <!-- Joining Race Screen -->
     <div id="join-race-screen" style="display:none;">
+        <label for="join-nickname">Nickname</label>
         <input type="text" id="join-nickname" placeholder="Enter your nickname">
+
+        <label for="join-passcode">Passcode</label>
         <input type="password" id="join-passcode" placeholder="Enter race passcode">
-        
+
+        <!-- Emoji Selection for Joining Race -->
         <h3>Select an Emoji</h3>
         <div id="emoji-selection-join">
             <button class="emoji-btn" data-emoji="🚗">🚗</button>
@@ -64,19 +76,21 @@
 
     <!-- Game Screen for Active Race -->
     <div id="game-container" style="display:none;">
-        <div id="player-container"></div>
+        <div id="player-container"></div> <!-- Progress bar container -->
         <button id="ready-btn">Ready</button> <!-- Ready button -->
         <div id="ready-message"></div> <!-- Ready status message -->
         <div id="countdown" style="display:none;">Race starts in <span id="countdown-timer">5</span> seconds!</div>
         <button id="tap-btn" style="display:none;">Tap</button> <!-- Hidden until race starts -->
-        
+
+        <!-- Quiz container -->
         <div id="quiz-container" style="display:none;">
             <h2 id="quiz-question"></h2>
             <div id="quiz-options"></div>
         </div>
 
+        <!-- Scoreboard -->
         <ul id="score-list"></ul>
-    </div>  
+    </div>
 
     <script type="module" src="app.js"></script>
 </body>

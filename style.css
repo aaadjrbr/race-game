@@ -120,6 +120,19 @@ button:hover {
 }
 
 /* Progress Bars for Players */
+.progress-wrapper {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  background-color: #e0e0e0;
+  border-radius: 20px;
+  margin: 15px 0;
+  padding: 5px;
+  overflow: hidden;
+  width: 100%;
+  max-width: 400px; /* Adjust as needed */
+}
+
 .progress-bar {
   width: 100%;
   height: 30px;
@@ -131,42 +144,45 @@ button:hover {
 
 .progress-fill {
   height: 100%;
+  background-color: #4caf50;
   width: 0;
-  border-radius: 15px;
-  transition: width 0.5s ease;
+  transition: width 0.5s ease-in-out;
 }
 
 .progress-fill.player1 {
   background: linear-gradient(90deg, #ff9a9e 0%, #fad0c4 100%);
+  border-radius: 20px;
 }
 
 .progress-fill.player2 {
   background: linear-gradient(90deg, #a1c4fd 0%, #c2e9fb 100%);
+  border-radius: 20px;
 }
 
 .progress-fill.player3 {
   background: linear-gradient(90deg, #84fab0 0%, #8fd3f4 100%);
+  border-radius: 20px;
 }
 
 .progress-fill.player4 {
   background: linear-gradient(90deg, #fbc2eb 0%, #a6c1ee 100%);
+  border-radius: 20px;
 }
 
 .progress-fill.player5 {
   background: linear-gradient(90deg, #fccb90 0%, #d57eeb 100%);
+  border-radius: 20px;
 }
 
 /* Emoji on Progress Bar */
 .emoji {
-  position: absolute;
-  top: 15px; /* Adjust the position of the emoji */
+  top: 0;
   margin-left: 15px;
   font-size: 30px;
   transition: left 0.5s ease;
   border-radius: 50%;
   background-color: #fff;
   width: 50px;
-  height: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -174,7 +190,7 @@ button:hover {
 }
 
 /* Go back button */
-#go-back-btn {
+#go-back-btn-create, #go-back-btn-list, #go-back-btn-join {
   background-color: #ff6347;
   color: white;
   border-radius: 25px;
@@ -183,7 +199,7 @@ button:hover {
   transition: background-color 0.3s;
 }
 
-#go-back-btn:hover {
+#go-back-btn-create:hover, #go-back-btn-list:hover, #go-back-btn-join:hover {
   background-color: #ff4500;
 }
 
@@ -205,7 +221,7 @@ button:hover {
   }
 
   input {
-    width: 100%;
+    width: 90%;
   }
 
   #track-container {

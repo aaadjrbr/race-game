@@ -85,6 +85,13 @@ document.getElementById('custom-emoji-btn').addEventListener('click', () => {
   }
 });
 
+document.getElementById('custom-emoji-btn-join').addEventListener('click', () => {
+  const customEmoji = prompt("Enter your custom emoji:");
+  if (customEmoji) {
+    selectedEmoji = customEmoji;
+  }
+});
+
 // Show Available Races
 async function showAvailableRaces() {
   document.getElementById('main-screen').style.display = 'none';
@@ -119,6 +126,22 @@ function showJoinRaceScreen() {
   document.getElementById('join-race-screen').style.display = 'block';
   document.getElementById('main-screen').style.display = 'none';
 }
+
+// Go Back Buttons
+document.getElementById('go-back-btn-create').addEventListener('click', () => {
+  document.getElementById('create-race-screen').style.display = 'none';
+  document.getElementById('main-screen').style.display = 'block';
+});
+
+document.getElementById('go-back-btn-join').addEventListener('click', () => {
+  document.getElementById('join-race-screen').style.display = 'none';
+  document.getElementById('main-screen').style.display = 'block';
+});
+
+document.getElementById('go-back-btn-list').addEventListener('click', () => {
+  document.getElementById('race-list-container').style.display = 'none';
+  document.getElementById('main-screen').style.display = 'block';
+});
 
 // Join a Race
 document.getElementById('join-btn').addEventListener('click', async () => {
@@ -200,6 +223,7 @@ function listenForUpdates(raceName) {
     updateProgressBars(data);
     updateScoreboard(data);
     checkIfAllPlayersReady(data);
+    checkForWinner(data);  // Check if a player has won the race
   });
 }
 
@@ -315,5 +339,39 @@ function updateScoreboard(raceData) {
     const playerScore = document.createElement('li');
     playerScore.innerHTML = `${raceData[`player${i}Emoji`]} ${raceData[`player${i}Nickname`]}: ${raceData[`player${i}Progress`]}%`;
     scoreList.appendChild(playerScore);
+  }
+}
+
+// Check for Winner
+function checkForWinner(raceData) {
+  if (raceData.winner) {
+    const winnerIndex = raceData.winner;
+    const winnerName = raceData[`player${winnerIndex}Nickname`];
+    const winnerEmoji = raceData[`player${winnerIndex}Emoji`];
+
+    alert(`${winnerEmoji} ${winnerName} has won the race!`);
+    document.getElementById('tap-btn').style.display = 'none';  // Hide the tap button once there's a winner
+
+    // Display Restart or Go Back button
+    const endGameContainer = document.createElement('div');
+    endGameContainer.className = 'end-game-options';
+
+    const restartBtn = document.createElement('button');
+    restartBtn.innerText = 'Restart Race';
+    restartBtn.addEventListener('click', () => {
+      location.reload();  // Reload the page to restart the race
+    });
+
+    const goBackBtn = document.createElement('button');
+    goBackBtn.innerText = 'Go Back to Home';
+    goBackBtn.addEventListener('click', () => {
+      document.getElementById('game-container').style.display = 'none';
+      document.getElementById('main-screen').style.display = 'block';
+    });
+
+    endGameContainer.appendChild(restartBtn);
+    endGameContainer.appendChild(goBackBtn);
+
+    document.body.appendChild(endGameContainer);
   }
 }
